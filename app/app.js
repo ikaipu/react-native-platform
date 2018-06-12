@@ -1,19 +1,55 @@
-import React from 'react';
-import {View, Text} from 'react-native';
-import {createStackNavigator} from 'react-navigation';
+// refer https://reactnavigation.org/docs/redux-integration.html
+import React, {Component} from 'react';
+import {AppState, BackAndroid, NetInfo} from 'react-native';
+import Home from './containers/home';
+import ReduxProvider from './modules/redux/redux';
 
-class HomeScreen extends React.Component {
+export default class Root extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      appState: AppState.currentState,
+    };
+    AppState.addEventListener('change', this.handleAppStateChange);
+    NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
+    window.onunhandledrejection = (promise, reason) => { // eslint-disable-line
+      console.error('Unhandled rejection is', promise, reason);
+    };
+  }
+
+  componentDidMount() {
+    BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  componentWillUnmount() {
+    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  handleBackButton = () => true;
+
+  handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      // it is called when the app become active
+    } else if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+      // it is called when the app become inactive or background
+    }
+    this.setState({appState: nextAppState});
+  };
+
+  handleConnectivityChange = (connectInfo) => {
+    if (connectInfo === 'none') {
+      // it is called when the app connection become offline
+    } else {
+      // it is called if the app connection become offline
+
+    }
+  };
+
   render() {
     return (
-      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-        <Text>Home Screen</Text>
-      </View>
-    );
+      <ReduxProvider >
+        <Home />
+      </ReduxProvider>);
   }
 }
 
-export default createStackNavigator({
-  Home: {
-    screen: HomeScreen,
-  },
-});
