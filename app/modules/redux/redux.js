@@ -11,20 +11,24 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'remote-redux-devtools';
 import autoMergeLevel2Immutable from './utils/automergeLevel2-immutable';
 
-export const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
+const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
+const reactNavigationReduxMiddleware = createReactNavigationReduxMiddleware(
+  'root',
+  state => state.nav,
+);
 
 type Props = {
   children: Element,
   combineReducers: {},
   immutableTransforms: [],
-  whitelist: [],
+  persistedList: [],
 };
 
 export default class ReduxProvider extends Component<Props> {
   constructor(props) {
     super(props);
 
-    const {combineReducers, immutableTransforms, whitelist} = props;
+    const {combineReducers, immutableTransforms} = props;
 
     this.persistConfig = {
       key: 'root',
@@ -33,7 +37,7 @@ export default class ReduxProvider extends Component<Props> {
         immutableTransform(immutableTransforms),
       ],
       storage: AsyncStorage,
-      whitelist,
+      whitelist: this.props.persistedList,
       debug: true,
     };
 
@@ -53,10 +57,7 @@ export default class ReduxProvider extends Component<Props> {
     this.middleware = debugWrapper(applyMiddleware(...[
       thunk,
       this.logger,
-      createReactNavigationReduxMiddleware(
-        'root',
-        state => state.nav,
-      ),
+      reactNavigationReduxMiddleware,
     ]));
 
     this.store = createStore(this.reducer, this.middleware);

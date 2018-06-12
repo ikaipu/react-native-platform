@@ -48,7 +48,10 @@ export default class Root extends Component {
 
   render() {
     return (
-      <ReduxProvider combineReducers={combineReducers}>
+      <ReduxProvider
+        combineReducers={combineReducers}
+        immutableTransforms={[]}
+        persistedList={[]}>
         <Home />
       </ReduxProvider>);
   }
