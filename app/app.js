@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 import {AppState, BackAndroid, NetInfo} from 'react-native';
 import Home from './containers/home';
 import ReduxProvider from './modules/redux/redux';
+import combineReducers from './reducers/combine.reducers';
 
 export default class Root extends Component {
   constructor(props) {
@@ -47,7 +48,7 @@ export default class Root extends Component {
 
   render() {
     return (
-      <ReduxProvider >
+      <ReduxProvider combineReducers={combineReducers}>
         <Home />
       </ReduxProvider>);
   }
