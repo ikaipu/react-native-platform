@@ -17,15 +17,7 @@
     "airbnb",
     "plugin:prettier/recommended"
   ],
-
   "rules": {
-    "prettier/prettier": [
-      "error",
-      {
-        "singleQuote": true,
-        "trailingComma": "es5"
-      }
-    ],
     "accessor-pairs": 2,
     "array-bracket-newline": 2,
     "array-bracket-spacing": 2,
@@ -285,7 +277,13 @@
     "import/prefer-default-export": 0,
     "global-require": 0,
     "react/jsx-closing-bracket-location": [1, "after-props"],
-    "object-curly-spacing": ["error", "never"],
-    "no-use-before-define": 0  // disallow use of variables before they are defined
+    "no-use-before-define": 0,  // disallow use of variables before they are defined
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5"
+      }
+    ]
   }
 }
