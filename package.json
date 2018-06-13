@@ -14,7 +14,7 @@
   },
   "lint-staged": {
     "*.js": [
-      "flow check",
+      "flow focus-check",
       "eslint --fix",
       "git add"
     ]
