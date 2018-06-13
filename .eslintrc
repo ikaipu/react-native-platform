@@ -14,10 +14,18 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "airbnb-base",
-    "airbnb"
+    "airbnb",
+    "plugin:prettier/recommended"
   ],
 
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "es5"
+      }
+    ],
     "accessor-pairs": 2,
     "array-bracket-newline": 2,
     "array-bracket-spacing": 2,
