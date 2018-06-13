@@ -1,6 +1,5 @@
 import System from './system.record';
-import {SET_TIMESTAMP_OFFSET} from './system.action';
-
+import { SET_TIMESTAMP_OFFSET } from './system.action';
 
 class SystemReducer {
   reducer = (state: typeof System = new System(), action: Object) => {
@@ -12,7 +11,7 @@ class SystemReducer {
         return state;
       }
     }
-  }
+  };
 }
 
 export default new SystemReducer();

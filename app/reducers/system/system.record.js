@@ -1,7 +1,10 @@
-import {Record} from 'immutable';
+import { Record } from 'immutable';
 
-const System = Record({
-  timestampOffset: 0,
-}, 'System');
+const System = Record(
+  {
+    timestampOffset: 0,
+  },
+  'System',
+);
 
 export default System;
