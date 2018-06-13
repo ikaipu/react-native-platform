@@ -22,7 +22,7 @@
     "react-devtools": "^3.2.3",
     "react-native": "0.55.4",
     "react-native-console-time-polyfill": "0.0.6",
-    "react-navigation": "^2.3.0",
+    "react-navigation": "2.2.5",
     "react-navigation-redux-helpers": "^1.1.2",
     "react-redux": "^5.0.7",
     "redux": "^4.0.0",

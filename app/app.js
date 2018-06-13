@@ -1,7 +1,7 @@
 // refer https://reactnavigation.org/docs/redux-integration.html
 import React, {Component} from 'react';
 import {AppState, BackAndroid, NetInfo} from 'react-native';
-import Home from './containers/home';
+import AppWithNavigationState from './modules/navigation/app.navigator';
 import ReduxProvider from './modules/redux/redux';
 import combineReducers from './reducers/combine.reducers';
 
@@ -52,7 +52,7 @@ export default class Root extends Component {
         combineReducers={combineReducers}
         immutableTransforms={[]}
         persistedList={[]}>
-        <Home />
+        <AppWithNavigationState />
       </ReduxProvider>);
   }
 }

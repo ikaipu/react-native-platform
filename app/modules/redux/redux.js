@@ -1,7 +1,6 @@
 // refer https://reactnavigation.org/docs/redux-integration.html
 import React, {Component, Element} from 'react';
 import {AsyncStorage} from 'react-native';
-import {createReactNavigationReduxMiddleware} from 'react-navigation-redux-helpers';
 import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
 import {persistCombineReducers, persistStore} from 'redux-persist';
@@ -11,17 +10,16 @@ import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'remote-redux-devtools';
 import autoMergeLevel2Immutable from './utils/automergeLevel2-immutable';
 
+export const rootConfigKey = 'root';
+
 const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
-const reactNavigationReduxMiddleware = createReactNavigationReduxMiddleware(
-  'root',
-  state => state.nav,
-);
 
 type Props = {
   children: Element,
   combineReducers: {},
   immutableTransforms: [],
   persistedList: [],
+  middlewares:[],
 };
 
 export default class ReduxProvider extends Component<Props> {
@@ -37,7 +35,7 @@ export default class ReduxProvider extends Component<Props> {
         immutableTransform(immutableTransforms),
       ],
       storage: AsyncStorage,
-      whitelist: this.props.persistedList,
+      whitelist: props.persistedList,
       debug: true,
     };
 
@@ -52,12 +50,11 @@ export default class ReduxProvider extends Component<Props> {
       };
     };
 
-    // createReactNavigationReduxMiddleware must be run
-    // before createReduxBoundAddListener on navigation.js
+
     this.middleware = debugWrapper(applyMiddleware(...[
       thunk,
       this.logger,
-      reactNavigationReduxMiddleware,
+      ...this.props.middlewares,
     ]));
 
     this.store = createStore(this.reducer, this.middleware);
@@ -75,4 +72,8 @@ export default class ReduxProvider extends Component<Props> {
     );
   }
 }
+
+ReduxProvider.defaultProps = {
+  middlewares: [],
+};
 

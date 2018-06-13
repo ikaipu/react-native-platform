@@ -1,11 +1,10 @@
 // refer https://reactnavigation.org/docs/redux-integration.html
-import {StackNavigator} from './navigation';
+import {AppNavigator} from './app.navigator';
 
-const initialNavState = StackNavigator.router.getStateForAction(StackNavigator.router.getActionForPathAndParams('Home'));
+const initialNavState = AppNavigator.router.getStateForAction(AppNavigator.router.getActionForPathAndParams('Home'));
 
 export default function navigation(state = initialNavState, action) {
-  const nextState = StackNavigator.router.getStateForAction(action, state);
-
+  const nextState = AppNavigator.router.getStateForAction(action, state);
 
   return nextState || state;
 }
