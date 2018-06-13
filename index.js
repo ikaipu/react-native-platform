@@ -2,6 +2,6 @@ import 'core-js';
 import 'react-devtools';
 import {AppRegistry} from 'react-native';
 import 'react-native-console-time-polyfill';
-import App from './app/app';
+import Root from './app/root';
 
-AppRegistry.registerComponent('ReactNativePlatform', () => App);
+AppRegistry.registerComponent('ReactNativePlatform', () => Root);

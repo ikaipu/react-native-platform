@@ -1,22 +1,15 @@
-// refer https://reactnavigation.org/docs/redux-integration.html
-import React, {Component} from 'react';
+import React from 'react';
 import {AppState, BackHandler, NetInfo} from 'react-native';
-import AppWithNavigationState from './modules/navigation.with.redux/app.navigator';
-import ReduxProvider from './modules/redux/redux';
-import combineReducers from './reducers/combine.reducers';
-import NavigationReducer from './modules/navigation.with.redux/navigation.reducer';
-import StackNavigator from './navigators/stack.navigator';
-import {reactNativeNavigationReduxMiddleware} from './modules/navigation.with.redux/utils/redux';
 
-export default class Root extends Component {
+type Props = {
+  children: React.Element,
+}
+class Listeners extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.state = {
       appState: AppState.currentState,
     };
-
-    this.RootNavigator = StackNavigator;
-    NavigationReducer.init(this.RootNavigator, 'Home');
 
     AppState.addEventListener('change', this.handleAppStateChange);
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
@@ -27,7 +20,9 @@ export default class Root extends Component {
   }
 
   componentWillUnmount() {
+    NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   handleBackButton = () => true;
@@ -44,21 +39,16 @@ export default class Root extends Component {
   handleConnectivityChange = (connectInfo) => {
     if (connectInfo === 'none') {
       // it is called when the app connection become offline
+      console.log('offline');
     } else {
       // it is called if the app connection become offline
-
+      console.log('online');
     }
   };
 
   render() {
-    return (
-      <ReduxProvider
-        combineReducers={combineReducers}
-        immutableTransforms={[]}
-        persistedList={[]}
-        middlewares={[reactNativeNavigationReduxMiddleware]}>
-        <AppWithNavigationState Navigator={this.RootNavigator} />
-      </ReduxProvider>);
+    return this.props.children;
   }
 }
 
+export default Listeners;
