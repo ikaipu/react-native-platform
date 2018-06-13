@@ -1,20 +1,20 @@
-import Immutable, {Record} from 'immutable';
-import React, {Component} from 'react';
-import type {Element} from 'react';
-import {AsyncStorage} from 'react-native';
-import {Provider} from 'react-redux';
-import {applyMiddleware, createStore} from 'redux';
-import {createLogger} from 'redux-logger';
-import {persistCombineReducers, persistStore} from 'redux-persist';
+import Immutable, { Record } from 'immutable';
+import type { Element } from 'react';
+import React, { Component } from 'react';
+import { AsyncStorage } from 'react-native';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
+import { persistCombineReducers, persistStore } from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
-import {PersistGate} from 'redux-persist/es/integration/react';
+import { PersistGate } from 'redux-persist/es/integration/react';
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'remote-redux-devtools';
+import { composeWithDevTools } from 'remote-redux-devtools';
 import autoMergeLevel2Immutable from './utils/automergeLevel2-immutable';
 
 export const rootConfigKey = 'root';
 
-const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
+const debugWrapper = composeWithDevTools({ realtime: true, port: 8000 });
 
 type Props = {
   children: Element<Object>,
@@ -25,31 +25,30 @@ type Props = {
 };
 
 const logger = createLogger({
-  stateTransformer: state => Object.keys(state).reduce((newState, key) => {
-    if (Immutable.Iterable.isIterable(state[key])) {
-      return {...newState, [key]: state[key].toJS()};
-    }
+  stateTransformer: state =>
+    Object.keys(state).reduce((newState, key) => {
+      if (Immutable.Iterable.isIterable(state[key])) {
+        return { ...newState, [key]: state[key].toJS() };
+      }
 
-    return {...newState, [key]: state[key]};
-  }, {}),
+      return { ...newState, [key]: state[key] };
+    }, {}),
 });
 
 export default class ReduxProvider extends Component<Props> {
   static defaultProps: {
     middlewares: [],
-  }
+  };
 
   constructor(props: Props) {
     super(props);
 
-    const {combineReducers, immutableRecords} = props;
+    const { combineReducers, immutableRecords } = props;
 
     this.persistConfig = {
       key: rootConfigKey,
       stateReconciler: autoMergeLevel2Immutable,
-      transforms: [
-        immutableTransform({records: immutableRecords}),
-      ],
+      transforms: [immutableTransform({ records: immutableRecords })],
       storage: AsyncStorage,
       whitelist: props.persistedList,
       debug: true,
@@ -57,11 +56,9 @@ export default class ReduxProvider extends Component<Props> {
 
     this.reducer = persistCombineReducers(this.persistConfig, combineReducers);
 
-    this.middleware = debugWrapper(applyMiddleware(...[
-      thunk,
-      logger,
-      ...this.props.middlewares,
-    ]));
+    this.middleware = debugWrapper(
+      applyMiddleware(...[thunk, logger, ...this.props.middlewares]),
+    );
 
     this.store = createStore(this.reducer, this.middleware);
 
@@ -92,4 +89,3 @@ export default class ReduxProvider extends Component<Props> {
 ReduxProvider.defaultProps = {
   middlewares: [],
 };
-

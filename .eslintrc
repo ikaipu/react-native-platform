@@ -22,7 +22,6 @@
     "array-bracket-newline": 2,
     "array-bracket-spacing": 2,
     "array-callback-return": 2,
-    "array-element-newline": 2,
     "arrow-body-style": 2,
     "arrow-parens": 2,
     "arrow-spacing": 2,
@@ -276,7 +275,6 @@
     "import/no-dynamic-require": 0,
     "import/prefer-default-export": 0,
     "global-require": 0,
-    "react/jsx-closing-bracket-location": [1, "after-props"],
     "no-use-before-define": 0,  // disallow use of variables before they are defined
     "prettier/prettier": [
       "error",

@@ -1,17 +1,17 @@
 // @flow
 
-import type {Element} from 'react';
+import type { Element } from 'react';
 import React from 'react';
 
-import {AppState, BackHandler, NetInfo} from 'react-native';
+import { AppState, BackHandler, NetInfo } from 'react-native';
 
 type Props = {
   children: Element<Object>,
-}
+};
 
 type State = {
   appState: Object,
-}
+};
 class Listeners extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
@@ -28,7 +28,10 @@ class Listeners extends React.Component<Props, State> {
   }
 
   componentWillUnmount() {
-    NetInfo.removeEventListener('connectionChange', this.handleConnectivityChange);
+    NetInfo.removeEventListener(
+      'connectionChange',
+      this.handleConnectivityChange,
+    );
     BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
@@ -36,12 +39,18 @@ class Listeners extends React.Component<Props, State> {
   handleBackButton = () => true;
 
   handleAppStateChange = (nextAppState: { match: Function }) => {
-    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === 'active'
+    ) {
       // it is called when the app become active
-    } else if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
+    } else if (
+      this.state.appState === 'active' &&
+      nextAppState.match(/inactive|background/)
+    ) {
       // it is called when the app become inactive or background
     }
-    this.setState({appState: nextAppState});
+    this.setState({ appState: nextAppState });
   };
 
   handleConnectivityChange = (connectInfo: string) => {
