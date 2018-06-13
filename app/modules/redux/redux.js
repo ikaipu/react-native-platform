@@ -1,8 +1,10 @@
+import Immutable from 'immutable';
 // refer https://reactnavigation.org/docs/redux-integration.html
 import React, {Component, Element} from 'react';
 import {AsyncStorage} from 'react-native';
 import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
+import {createLogger} from 'redux-logger';
 import {persistCombineReducers, persistStore} from 'redux-persist';
 import immutableTransform from 'redux-persist-transform-immutable';
 import {PersistGate} from 'redux-persist/es/integration/react';
@@ -22,6 +24,16 @@ type Props = {
   middlewares: Array,
 };
 
+const logger = createLogger({
+  stateTransformer: state => Object.keys(state).reduce((newState, key) => {
+    if (Immutable.Iterable.isIterable(state[key])) {
+      return {...newState, [key]: state[key].toJS()};
+    }
+
+    return {...newState, [key]: state[key]};
+  }, {}),
+});
+
 export default class ReduxProvider extends Component<Props> {
   constructor(props) {
     super(props);
@@ -40,20 +52,10 @@ export default class ReduxProvider extends Component<Props> {
     };
 
     this.reducer = persistCombineReducers(this.persistConfig, combineReducers);
-    this.logger = () => function log(next) {
-      return (action) => {
-        console.log(`--- ${action.type} ---`);
-        console.log('action: %O', action);
-        console.log('before: %O', this.state && this.store.getState());
-        next(action); // eslint-disable-line
-        console.log('after: %O', this.state && this.store.getState());
-      };
-    };
-
 
     this.middleware = debugWrapper(applyMiddleware(...[
       thunk,
-      this.logger,
+      logger,
       ...this.props.middlewares,
     ]));
 
