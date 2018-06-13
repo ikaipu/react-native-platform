@@ -2,6 +2,11 @@
 ; We fork some components by platform
 .*/*[.]android.js
 
+; Ignore all node_modules
+<PROJECT_ROOT>/node_modules/.*
+<PROJECT_ROOT>/libdefs.js
+<PROJECT_ROOT>/app/modules/redux.with.immutable/utils/automergeLevel2-immutable.js
+
 ; Ignore "BUCK" generated dirs
 <PROJECT_ROOT>/\.buckd/
 
@@ -22,11 +27,13 @@
 [include]
 
 [libs]
+libdefs.js
 node_modules/react-native/Libraries/react-native/react-native-interface.js
 node_modules/react-native/flow/
 node_modules/react-native/flow-github/
 
 [options]
+all=true
 emoji=true
 
 module.system=haste

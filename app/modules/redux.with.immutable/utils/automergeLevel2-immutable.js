@@ -2,6 +2,7 @@
  Adapted from https://github.com/rt2zz/redux-persist/blob/master/src/stateReconciler/autoMergeLevel2.js
  */
 /* eslint-disable */
+// @flow-disable
 
 export default function autoMergeLevel2Immutable(
   inboundState,
@@ -53,3 +54,4 @@ export default function autoMergeLevel2Immutable(
 function isPlainEnoughObject(o) {
   return o !== null && !Array.isArray(o) && typeof o === 'object'
 }
+/*flow-disable*/

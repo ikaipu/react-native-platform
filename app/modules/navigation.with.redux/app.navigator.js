@@ -20,20 +20,26 @@ class AppWithNavigationState extends React.Component<Props> {
     initializeListeners(rootConfigKey, this.props.navigation);
   }
 
+  Navigator;
+
+  nav;
+
   render() {
+    const {Navigator} = this;
+
     if (!this.Navigator) {
-      return Promise.reject(new Error(errorMessages.uninitializedClass));
+      console.error(new Error(errorMessages.uninitializedClass));
     }
     const {dispatch, navigation} = this.props;
 
     this.nav = navigationPropConstructor(
       dispatch,
       navigation,
-      this.Navigator.router,
+      Navigator.router,
       () => this.nav,
     );
 
-    return <this.Navigator navigation={this.nav} />;
+    return <Navigator navigation={this.nav} />;
   }
 }
 

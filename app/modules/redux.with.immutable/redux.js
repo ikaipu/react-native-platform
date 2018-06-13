@@ -1,5 +1,6 @@
-import Immutable from 'immutable';
-import React, {Component, Element} from 'react';
+import Immutable, {Record} from 'immutable';
+import React, {Component} from 'react';
+import type {Element} from 'react';
 import {AsyncStorage} from 'react-native';
 import {Provider} from 'react-redux';
 import {applyMiddleware, createStore} from 'redux';
@@ -16,11 +17,11 @@ export const rootConfigKey = 'root';
 const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
 
 type Props = {
-  children: Element,
+  children: Element<Object>,
   combineReducers: Object,
-  immutableRecords: Array,
-  persistedList: Array,
-  middlewares: Array,
+  immutableRecords: Array<typeof Record>,
+  persistedList: Array<string>,
+  middlewares: Array<typeof Object>,
 };
 
 const logger = createLogger({
@@ -34,7 +35,11 @@ const logger = createLogger({
 });
 
 export default class ReduxProvider extends Component<Props> {
-  constructor(props) {
+  static defaultProps: {
+    middlewares: [],
+  }
+
+  constructor(props: Props) {
     super(props);
 
     const {combineReducers, immutableRecords} = props;
@@ -62,6 +67,16 @@ export default class ReduxProvider extends Component<Props> {
 
     this.persistor = persistStore(this.store, null);
   }
+
+  persistConfig: {};
+
+  reducer: Object;
+
+  middleware: Object;
+
+  store: Object;
+
+  persistor: Object;
 
   render() {
     return (

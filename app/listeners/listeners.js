@@ -1,11 +1,19 @@
+// @flow
+
+import type {Element} from 'react';
 import React from 'react';
+
 import {AppState, BackHandler, NetInfo} from 'react-native';
 
 type Props = {
-  children: React.Element,
+  children: Element<Object>,
 }
-class Listeners extends React.Component<Props> {
-  constructor(props) {
+
+type State = {
+  appState: Object,
+}
+class Listeners extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       appState: AppState.currentState,
@@ -27,7 +35,7 @@ class Listeners extends React.Component<Props> {
 
   handleBackButton = () => true;
 
-  handleAppStateChange = (nextAppState) => {
+  handleAppStateChange = (nextAppState: { match: Function }) => {
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       // it is called when the app become active
     } else if (this.state.appState === 'active' && nextAppState.match(/inactive|background/)) {
@@ -36,7 +44,7 @@ class Listeners extends React.Component<Props> {
     this.setState({appState: nextAppState});
   };
 
-  handleConnectivityChange = (connectInfo) => {
+  handleConnectivityChange = (connectInfo: string) => {
     if (connectInfo === 'none') {
       // it is called when the app connection become offline
       console.log('offline');

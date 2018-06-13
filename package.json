@@ -5,6 +5,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
+    "flow": "flow",
+    "eslint": "eslint",
     "react-devtool": "react-devtools",
     "redux-devtool": "remotedev",
     "precommit": "lint-staged"
@@ -44,6 +46,7 @@
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.9.1",
     "eslint-plugin-react-native": "^3.2.1",
+    "flow-bin": "^0.67.1",
     "husky": "^0.14.3",
     "jest": "23.1.0",
     "lint-staged": "^7.2.0",

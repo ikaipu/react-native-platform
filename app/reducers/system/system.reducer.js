@@ -3,7 +3,7 @@ import {SET_TIMESTAMP_OFFSET} from './system.action';
 
 
 class SystemReducer {
-  reducer = (state = new System(), action) => {
+  reducer = (state: typeof System = new System(), action: Object) => {
     switch (action.type) {
       case SET_TIMESTAMP_OFFSET: {
         return state.set('timestampOffset', action.timestampOffset);

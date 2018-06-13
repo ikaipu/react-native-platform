@@ -7,11 +7,13 @@ import ReduxProvider from './modules/redux.with.immutable/redux';
 import StackNavigator from './navigators/stack.navigator';
 import combineReducers, {immutableRecords, persistedList} from './reducers/combine.reducers';
 
-export default class Root extends Component {
-  constructor(props) {
+const RootNavigator = StackNavigator;
+
+type Props = {}
+export default class Root extends Component<Props> {
+  constructor(props: Props) {
     super(props);
-    this.RootNavigator = StackNavigator;
-    NavigationReducer.init(this.RootNavigator, 'Home');
+    NavigationReducer.init(RootNavigator, 'Home');
   }
 
   render() {
@@ -22,7 +24,7 @@ export default class Root extends Component {
           immutableRecords={immutableRecords}
           persistedList={persistedList}
           middlewares={[reactNativeNavigationReduxMiddleware]}>
-          <AppWithNavigationState Navigator={this.RootNavigator} />
+          <AppWithNavigationState Navigator={RootNavigator} />
         </ReduxProvider>
       </Listeners>
     );
