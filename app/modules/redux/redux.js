@@ -16,10 +16,10 @@ const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
 
 type Props = {
   children: Element,
-  combineReducers: {},
-  immutableTransforms: [],
-  persistedList: [],
-  middlewares:[],
+  combineReducers: Object,
+  immutableTransforms: Array,
+  persistedList: Array,
+  middlewares: Array,
 };
 
 export default class ReduxProvider extends Component<Props> {
@@ -29,7 +29,7 @@ export default class ReduxProvider extends Component<Props> {
     const {combineReducers, immutableTransforms} = props;
 
     this.persistConfig = {
-      key: 'root',
+      key: rootConfigKey,
       stateReconciler: autoMergeLevel2Immutable,
       transforms: [
         immutableTransform(immutableTransforms),

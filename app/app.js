@@ -1,9 +1,12 @@
 // refer https://reactnavigation.org/docs/redux-integration.html
 import React, {Component} from 'react';
-import {AppState, BackAndroid, NetInfo} from 'react-native';
-import AppWithNavigationState from './modules/navigation/app.navigator';
+import {AppState, BackHandler, NetInfo} from 'react-native';
+import AppWithNavigationState from './modules/navigation.with.redux/app.navigator';
 import ReduxProvider from './modules/redux/redux';
 import combineReducers from './reducers/combine.reducers';
+import NavigationReducer from './modules/navigation.with.redux/navigation.reducer';
+import StackNavigator from './navigators/stack.navigator';
+import {reactNativeNavigationReduxMiddleware} from './modules/navigation.with.redux/utils/redux';
 
 export default class Root extends Component {
   constructor(props) {
@@ -11,19 +14,20 @@ export default class Root extends Component {
     this.state = {
       appState: AppState.currentState,
     };
+
+    this.RootNavigator = StackNavigator;
+    NavigationReducer.init(this.RootNavigator, 'Home');
+
     AppState.addEventListener('change', this.handleAppStateChange);
     NetInfo.addEventListener('connectionChange', this.handleConnectivityChange);
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
     window.onunhandledrejection = (promise, reason) => { // eslint-disable-line
       console.error('Unhandled rejection is', promise, reason);
     };
   }
 
-  componentDidMount() {
-    BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
-  }
-
   componentWillUnmount() {
-    BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
   }
 
   handleBackButton = () => true;
@@ -51,8 +55,9 @@ export default class Root extends Component {
       <ReduxProvider
         combineReducers={combineReducers}
         immutableTransforms={[]}
-        persistedList={[]}>
-        <AppWithNavigationState />
+        persistedList={[]}
+        middlewares={[reactNativeNavigationReduxMiddleware]}>
+        <AppWithNavigationState Navigator={this.RootNavigator} />
       </ReduxProvider>);
   }
 }
