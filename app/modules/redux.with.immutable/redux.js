@@ -1,5 +1,4 @@
 import Immutable from 'immutable';
-// refer https://reactnavigation.org/docs/redux-integration.html
 import React, {Component, Element} from 'react';
 import {AsyncStorage} from 'react-native';
 import {Provider} from 'react-redux';
@@ -19,7 +18,7 @@ const debugWrapper = composeWithDevTools({realtime: true, port: 8000});
 type Props = {
   children: Element,
   combineReducers: Object,
-  immutableTransforms: Array,
+  immutableRecords: Array,
   persistedList: Array,
   middlewares: Array,
 };
@@ -38,13 +37,13 @@ export default class ReduxProvider extends Component<Props> {
   constructor(props) {
     super(props);
 
-    const {combineReducers, immutableTransforms} = props;
+    const {combineReducers, immutableRecords} = props;
 
     this.persistConfig = {
       key: rootConfigKey,
       stateReconciler: autoMergeLevel2Immutable,
       transforms: [
-        immutableTransform(immutableTransforms),
+        immutableTransform({records: immutableRecords}),
       ],
       storage: AsyncStorage,
       whitelist: props.persistedList,

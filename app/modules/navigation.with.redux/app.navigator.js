@@ -2,7 +2,7 @@ import React from 'react';
 import {initializeListeners} from 'react-navigation-redux-helpers';
 import {connect} from 'react-redux';
 import errorMessages from '../error.messages';
-import {rootConfigKey} from '../redux/redux';
+import {rootConfigKey} from '../redux.with.immutable/redux';
 import {navigationPropConstructor} from './utils/redux';
 
 type Props = {

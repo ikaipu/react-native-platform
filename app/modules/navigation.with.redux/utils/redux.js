@@ -2,7 +2,7 @@ import {
   createNavigationPropConstructor,
   createReactNavigationReduxMiddleware,
 } from 'react-navigation-redux-helpers';
-import {rootConfigKey} from '../../redux/redux';
+import {rootConfigKey} from '../../redux.with.immutable/redux';
 
 const reactNativeNavigationReduxMiddleware = createReactNavigationReduxMiddleware(
   rootConfigKey,
