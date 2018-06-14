@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "1080130564359",
+    "firebase_url": "https://firestore-test-d0483.firebaseio.com",
+    "project_id": "firestore-test-d0483",
+    "storage_bucket": "firestore-test-d0483.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1080130564359:android:841edb7985be2aac",
+        "android_client_info": {
+          "package_name": "com.vananaz.test.firestore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1080130564359-5g18qdv8b8m79brmgb3gotd4orc9ugga.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "1080130564359-5g18qdv8b8m79brmgb3gotd4orc9ugga.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY5bMGEixW6HNdwCtjVSP1OJdEwscKhuw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,4 +1,4 @@
-package com.reactnativeplatform;
+package com.vananaz.test.firestore;
 
 import com.facebook.react.ReactActivity;
 
